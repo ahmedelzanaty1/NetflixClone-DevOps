@@ -1,0 +1,65 @@
+services:
+
+  server:
+    build:
+      context: ./server
+    container_name: server
+    ports:
+      - "5000:5000"
+
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DB_URL: mongodb://admin:admin@mongodb:27017/netflix?authSource=admin
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+    restart: unless-stopped
+
+
+  client:
+    build:
+      context: ./client
+    container_name: client
+    ports:
+      - "3000:80"
+
+    env_file:
+      - ./client/.env
+
+    depends_on:
+      - server
+
+    restart: unless-stopped
+
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+    volumes:
+      - mongo_data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "admin", "--password", "admin", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    restart: unless-stopped
+
+
+volumes:
+  mongo_data:
