@@ -1,0 +1,76 @@
+name: Secure CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-scans:
+    name: Security Scans (Non Blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true  
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 1️⃣ Secrets Scan - Gitleaks
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2️⃣ Static Code Analysis - Semgrep
+      - name: Semgrep Scan
+        run: |
+          python3 -m pip install semgrep
+          semgrep scan --config auto || true
+
+      # 3️⃣ Dependency Scan - Trivy FS
+      - name: Trivy FS Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          format: table
+          exit-code: 0
+          severity: CRITICAL,HIGH
+
+  build-and-image-scan:
+    name: Build & Image Scan
+    needs: security-scans
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 4️⃣ Build Backend Image
+      - name: Build Server Image
+        run: |
+          docker build -t netflixclone-devops-server:latest ./server
+
+      # 5️⃣ Build Frontend Image
+      - name: Build Client Image
+        run: |
+          docker build -t netflixclone-devops-client:latest ./client
+
+      # 6️⃣ Trivy Image Scan - Server
+      - name: Trivy Image Scan (Server)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: netflix-server:latest
+          format: table
+          exit-code: 0
+          severity: CRITICAL,HIGH
+
+      # 7️⃣ Trivy Image Scan - Client
+      - name: Trivy Image Scan (Client)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: netflix-client:latest
+          format: table
+          exit-code: 0
+          severity: CRITICAL,HIGH
