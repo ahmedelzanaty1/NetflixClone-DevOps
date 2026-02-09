@@ -10,7 +10,8 @@ jobs:
   security-scans:
     name: Security Scans (Non Blocking)
     runs-on: ubuntu-latest
-    continue-on-error: true  
+    continue-on-error: true
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -61,7 +62,7 @@ jobs:
       - name: Trivy Image Scan (Server)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: netflix-server:latest
+          image-ref: netflixclone-devops-server:latest
           format: table
           exit-code: 0
           severity: CRITICAL,HIGH
@@ -70,7 +71,7 @@ jobs:
       - name: Trivy Image Scan (Client)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: netflix-client:latest
+          image-ref: netflixclone-devops-client:latest
           format: table
           exit-code: 0
           severity: CRITICAL,HIGH
