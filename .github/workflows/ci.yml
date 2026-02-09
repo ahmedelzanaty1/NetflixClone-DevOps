@@ -68,7 +68,7 @@ jobs:
 
       # 7️⃣ Trivy Image Scan - Client
       - name: Trivy Image Scan (Client)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.29.0
         with:
           image-ref: netflix-client:latest
           format: table
