@@ -1,4 +1,4 @@
-bucket         = "<your-terraform-state-bucket>"
+bucket         = "netfilx-s3-bucket"
 key            = "netflix-clone/prod/terraform.tfstate"
 region         = "us-east-1"
 dynamodb_table = "terraform-state-locks"

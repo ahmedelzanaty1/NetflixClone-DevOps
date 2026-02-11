@@ -49,7 +49,7 @@ variable "cluster_version" {
 variable "node_group_instance_types" {
   description = "EC2 instance types used by managed node groups"
   type        = list(string)
-  default     = ["t3.large"]
+  default     = ["t3.small"]
 }
 
 variable "node_group_min_size" {
