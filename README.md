@@ -202,3 +202,9 @@ If you want to contact me, you can reach me through below handles. <br />
 
 Give a ⭐️ if you like this project!
 
+
+## Production AWS Infrastructure (Terraform)
+
+Production-ready Terraform for AWS (VPC, EKS managed node groups, ECR, IAM least privilege, and remote state with S3 + DynamoDB) is available under:
+
+- `infra/terraform/README.md`
