@@ -1,0 +1,13 @@
+aws_region = "us-east-1"
+project    = "netflix-clone"
+environment = "prod"
+
+availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+ci_principal_arns = [
+  "arn:aws:iam::<account-id>:role/github-actions-oidc"
+]
+
+tags = {
+  Owner = "platform-team"
+}
