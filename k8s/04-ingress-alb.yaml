@@ -4,12 +4,12 @@ metadata:
   name: netflix-frontend-ingress
   namespace: frontend
   annotations:
-    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: netflix-clone
     alb.ingress.kubernetes.io/group.order: "100"
 spec:
+  ingressClassName: alb
   rules:
     - http:
         paths:
@@ -27,13 +27,13 @@ metadata:
   name: netflix-backend-ingress
   namespace: backend
   annotations:
-    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: netflix-clone
     alb.ingress.kubernetes.io/group.order: "10"
     alb.ingress.kubernetes.io/healthcheck-path: /
 spec:
+  ingressClassName: alb
   rules:
     - http:
         paths:

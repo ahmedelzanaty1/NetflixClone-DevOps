@@ -1,0 +1,80 @@
+# =========================
+# Terraform Core
+# =========================
+
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+
+
+# =========================
+# Variables / Secrets
+# =========================
+
+*.tfvars
+*.tfvars.json
+terraform.tfvars
+terraform.tfvars.json
+
+# Sensitive overrides
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# =========================
+# Plan Files
+# =========================
+
+*.tfplan
+*.plan
+
+# =========================
+# CLI Config / Credentials
+# =========================
+
+.terraformrc
+terraform.rc
+
+# =========================
+# IDE / Editor
+# =========================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS Junk
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# AWS / Secrets Safety
+# =========================
+
+*.pem
+*.key
+*.pub
+credentials
+.env
+
+
+.terragrunt-cache/
+
+
+
+cdktf.out/
