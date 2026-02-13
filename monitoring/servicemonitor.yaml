@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: node-app-monitor
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: node-app     # لازم تطابق Service label
+  namespaceSelector:
+    matchNames:
+      - default         # namespace بتاع التطبيق
+  endpoints:
+    - port: http        # اسم البورت في Service
+      path: /metrics
+      interval: 5s
